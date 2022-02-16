@@ -1,0 +1,66 @@
+<div class="func">
+    <div class="func-header">
+        <p class="func-info">function</p>
+        <p class="func-name">{{name}}</p>
+    </div>
+
+    <hr>
+
+    <div class="func-inputs">
+        <span class="func-info">inputs</span>
+
+        <!-- Button to add one more input -->
+        <button (click)="popup='input'" class="func-add">+</button>
+
+        <div *ngFor="let input of func?.inputs">
+            <span class="func-input-name">
+                {{input.name}}
+            </span>
+            <span class="func-input-data-type">
+                 (type {{input.dataType.name}})
+            </span>
+            <button (click)="removeInput(input)" class="func-add">-</button>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="func-body">
+        <div *ngFor="let statement of func?.body.statements" class="func-statement">
+            statement
+        </div>
+        <div (click)="popup = 'statement'" class="func-statement func-add-statement">
+            +
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="func-outputs">
+        outputs section
+    </div>
+</div>
+
+<!-- Popup that can be shown or hidden -->
+<div *ngIf="popup === 'input'" id="input-popup">
+    <div>Input</div>
+    <div>
+        <input #inputName placeholder="name" type="text" />
+
+        <select #inputDataType>
+            <option *ngFor="let dataType of dataTypes; let i = index"
+                    [id]="'dataType-' + dataType.name" [selected]="i === 0" [value]="dataType.name">
+                {{dataType.name}}
+            </option>
+        </select>
+    </div>
+
+    <button (click)="closePopup()">Add input</button>
+    <button (click)="closePopup(true)">Close</button>
+</div>
+
+<div *ngIf="popup === 'statement'" id="statement-popup">
+    <div (click)="addStatement(statementType)" *ngFor="let statementType of statementTypes">
+        {{statementType.name}}
+    </div>
+</div>
